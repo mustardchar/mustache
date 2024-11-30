@@ -1,34 +1,53 @@
+
 const drape = document.querySelector('.drape');
 const flashlight = document.querySelector('.flashlight');
+const flashlightRadius = 75; // Radius of flashlight
 
-// Show flashlight on movement
-drape.addEventListener('mousemove', (e) => {
+// Function to update flashlight position
+function updateFlashlightPosition(x, y) {
+  flashlight.style.left = `${x - flashlightRadius}px`;
+  flashlight.style.top = `${y - flashlightRadius}px`;
+}
+
+// Function to show flashlight
+function showFlashlight() {
   flashlight.style.display = 'block';
-  flashlight.style.left = `${e.pageX - 75}px`; // Center the circle
-  flashlight.style.top = `${e.pageY - 75}px`;
-  
-  // Hide flashlight after a delay when movement stops
-  clearTimeout(flashlight.hideTimer);
-  flashlight.hideTimer = setTimeout(() => {
+  flashlight.style.opacity = 1; // Ensure it’s fully visible
+}
+
+// Function to hide flashlight (with fade-out effect)
+function hideFlashlight() {
+  flashlight.style.opacity = 0; // Fade out
+  setTimeout(() => {
     flashlight.style.display = 'none';
-  }, 200); // Adjust the delay time as needed
+  }, 200); // Match the fade duration
+}
+
+// Desktop: Mouse movement to control flashlight
+drape.addEventListener('mousemove', (e) => {
+  showFlashlight();
+  updateFlashlightPosition(e.pageX, e.pageY);
+
+  // Reset hide timer
+  clearTimeout(flashlight.hideTimer);
+  flashlight.hideTimer = setTimeout(hideFlashlight, 300);
 });
 
-// Handle touch events for mobile
+// Mobile: Touch movement to control flashlight
 drape.addEventListener('touchmove', (e) => {
   const touch = e.touches[0];
-  flashlight.style.display = 'block';
-  flashlight.style.left = `${touch.pageX - 75}px`;
-  flashlight.style.top = `${touch.pageY - 75}px`;
+  showFlashlight();
+  updateFlashlightPosition(touch.pageX, touch.pageY);
 
-  // Hide flashlight after touch ends
+  // Reset hide timer
   clearTimeout(flashlight.hideTimer);
-  flashlight.hideTimer = setTimeout(() => {
-    flashlight.style.display = 'none';
-  }, 200);
+  flashlight.hideTimer = setTimeout(hideFlashlight, 300);
 });
 
-// Hide flashlight when touch stops
-drape.addEventListener('touchend', () => {
-  flashlight.style.display = 'none';
-});
+// Mobile: Touch end to hide flashlight
+drape.addEventListener('touchend', hideFlashlight);
+
+// Desktop: Hide flashlight when mouse leaves drape
+drape.addEventListener('mouseleave', hideFlashlight);
+
+
