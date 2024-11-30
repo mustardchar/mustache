@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   overflow: hidden;
@@ -10,30 +11,18 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  z-index: -1; /* Push video behind content */
+  z-index: -1;
 }
 
 video {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensures the video scales correctly */
-} 
-/* Full-screen drape (black overlay) */
-.drape {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: black;
-  overflow: hidden;
-  z-index: 10;
-  cursor: none; /* Hide the cursor for better immersion */
+  object-fit: cover;
 }
 
-/* Flashlight (circle) */
+
 .flashlight {
-position: absolute;
+  position: absolute;
   width: 150px; /* Adjust the size of the flashlight here */
   height: 150px;
   background: radial-gradient(circle, rgba(0, 0, 0, 0) 50%, black 100%);
